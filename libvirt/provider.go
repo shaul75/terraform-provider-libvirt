@@ -28,6 +28,7 @@ func Provider() *schema.Provider {
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
+			"libvirt_volume":                           dataSourceLibvirtVolume(),
 			"libvirt_network_dns_host_template":        datasourceLibvirtNetworkDNSHostTemplate(),
 			"libvirt_network_dns_srv_template":         datasourceLibvirtNetworkDNSSRVTemplate(),
 			"libvirt_network_dnsmasq_options_template": datasourceLibvirtNetworkDnsmasqOptionsTemplate(),
@@ -55,7 +56,8 @@ func CleanupLibvirtConnections() {
 
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	config := Config{
-		URI: d.Get("uri").(string),
+		URI: "qemu+ssh://shaul@10.0.20.10/system?keyfile=/Users/shaul/.ssh/id_ed25519&sshauth=privkey&no_verify=1",
+		//d.Get("uri").(string),
 	}
 	log.Printf("[DEBUG] Configuring provider for '%s': %v", config.URI, d)
 
